@@ -143,8 +143,8 @@ if __name__ == '__main__':
                 print "Money %s, Attack %s" % (money, attack)
 
             if act.isdigit():
-                if( int(act) <= len(pO['hand'])):
-                    pO['active'].append(pO['hand'].pop(int(act)))
+                if( 1 <= int(act) <=len(pO['hand'])):
+                    pO['active'].append(pO['hand'].pop(int(act) - 1))
                     #for card in pO['active']:
                     money = money + pO['active'][-1].get_money()
                     attack = attack + pO['active'][-1].get_attack()
@@ -187,15 +187,15 @@ if __name__ == '__main__':
                         notending = False
                         break;
                     elif bv.isdigit():
-                        if int(bv) <= len(central['active']):
-                             if money >= central['active'][int(bv)].cost:
+                        if 1 <= int(bv) <= len(central['active']):
+                             if money >= central['active'][int(bv) - 1].cost:
                                 money = money - \
-                                        central['active'][int(bv)].cost
+                                        central['active'][int(bv) - 1].cost
                                 pO['discard'].\
-                                    append(central['active'].pop(int(bv)))
+                                    append(central['active'].pop(int(bv) - 1))
                                 if( len(central['deck']) > 0):
                                     card = central['deck'].pop()
-                                    central['active'].insert(int(bv),card)
+                                    central['active'].insert(int(bv) - 1,card)
                                 else:
                                     central['activeSize'] = \
                                         central['activeSize'] - 1
