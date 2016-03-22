@@ -110,14 +110,14 @@ if __name__ == '__main__':
             print "Computer Health %s" % pC['health']
 
             print "\nYour Hand"
-            index = 0
+            index = 1
             for card in pO['hand']:
                     print "[%s] %s" % (index, card)
                     index = index + 1
             print "\nYour Values"
             print "Money %s, Attack %s" % (money, attack)
             print "\nChoose Action: (P = play all, " \
-                  "[0-n] = play that card, B = Buy Card, " \
+                  "[1-n] = play that card, B = Buy Card, " \
                   "A = Attack, E = end turn)"
 
             act = raw_input("Enter Action: ")
@@ -143,13 +143,13 @@ if __name__ == '__main__':
                 print "Money %s, Attack %s" % (money, attack)
 
             if act.isdigit():
-                if( int(act) < len(pO['hand'])):
+                if( int(act) <= len(pO['hand'])):
                     pO['active'].append(pO['hand'].pop(int(act)))
                     #for card in pO['active']:
                     money = money + pO['active'][-1].get_money()
                     attack = attack + pO['active'][-1].get_attack()
                 print "\nYour Hand"
-                index = 0
+                index = 1
                 for card in pO['hand']:
                     print "[%s] %s" % (index, card)
                     index = index + 1
@@ -164,11 +164,11 @@ if __name__ == '__main__':
                 notending = True
                 while money > 0:
                     print "Available Cards"
-                    ind = 0
+                    ind = 1
                     for card in central['active']:
                         print "[%s] %s" % (ind,card)
                         ind = ind + 1
-                    print "Choose a card to buy [0-n], " \
+                    print "Choose a card to buy [1-n], " \
                           "S for supplement, E to end buying"
                     bv = raw_input("Choose option: ")
                     if bv == 'S':
@@ -187,7 +187,7 @@ if __name__ == '__main__':
                         notending = False
                         break;
                     elif bv.isdigit():
-                        if int(bv) < len(central['active']):
+                        if int(bv) <= len(central['active']):
                              if money >= central['active'][int(bv)].cost:
                                 money = money - \
                                         central['active'][int(bv)].cost
@@ -268,7 +268,7 @@ if __name__ == '__main__':
         if money > 0:
             cb = True
             templist = []
-            print "Starting Money %s and cb %s " % (money, cb)
+            print "Starting Money %s" % money
             while cb:
                 templist = []
                 if len(central['supplement']) > 0:
@@ -365,7 +365,7 @@ if __name__ == '__main__':
             if pO['health'] > pC['health']:
                 print "Player One Wins on Health"
             elif pC['health'] > pO['health']:
-                print "Computer Wins"
+                print "Computer Wins on Health"
             else:
                 pOStrength = 0
                 pCStrength = 0
