@@ -195,7 +195,7 @@ if __name__ == '__main__':
                                     append(central['active'].pop(int(bv)))
                                 if( len(central['deck']) > 0):
                                     card = central['deck'].pop()
-                                    central['active'].append(card)
+                                    central['active'].insert(int(bv),card)
                                 else:
                                     central['activeSize'] = \
                                         central['activeSize'] - 1
@@ -354,10 +354,10 @@ if __name__ == '__main__':
         print "\nPlayer Health %s" % pO['health']
         print "Computer Health %s" % pC['health']
 
-        #if pO['health'] <= 0:
+        # if pO['health'] <= 0:
         #    cG = False
         #    print "Computer wins"
-        #elif pC['health'] <= 0:
+        # elif pC['health'] <= 0:
         #    cG = False
         #    print 'Player One Wins'
         if central['activeSize'] == 0:
@@ -367,11 +367,15 @@ if __name__ == '__main__':
             elif pC['health'] > pO['health']:
                 print "Computer Wins"
             else:
-                pHT = 0
-                pCT = 0
-                if pHT > pCT:
+                pOStrength = 0
+                pCStrength = 0
+                for card in pO('hand'):
+                    pOStrength = pOStrength + card.get_attack
+                for card in pC('hand'):
+                    pCStrength = pCStrength + card.get_attack
+                if pOStrength > pCStrength:
                     print "Player One Wins on Card Strength"
-                elif pCT > pHT:
+                elif pCStrength > pOStrength:
                     print "Computer Wins on Card Strength"
                 else:
                     print "Draw"
@@ -379,6 +383,11 @@ if __name__ == '__main__':
 
 
         #TODO delete the following repeated code and rewrite the restart function
+        #while cg
+        #if not cg
+        # if cg
+        #code
+
         if not cG:
             pG = raw_input("\nDo you want to play another game?:")
             cG = (pG=='Y')
