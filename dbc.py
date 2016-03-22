@@ -141,12 +141,13 @@ if __name__ == '__main__':
                     print card
                 print "\nYour Values"
                 print "Money %s, Attack %s" % (money, attack)
+
             if act.isdigit():
                 if( int(act) < len(pO['hand'])):
                     pO['active'].append(pO['hand'].pop(int(act)))
-                    for card in pO['active']:
-                        money = money + card.get_money()
-                        attack = attack + card.get_attack()
+                    #for card in pO['active']:
+                    money = money + pO['active'][-1].get_money()
+                    attack = attack + pO['active'][-1].get_attack()
                 print "\nYour Hand"
                 index = 0
                 for card in pO['hand']:
@@ -158,8 +159,8 @@ if __name__ == '__main__':
                     print card
                 print "\nYour Values"
                 print "Money %s, Attack %s" % (money, attack)
-            if (act == 'B'):
 
+            if (act == 'B'):
                 notending = True
                 while money > 0:
                     print "Available Cards"
@@ -206,10 +207,13 @@ if __name__ == '__main__':
                     else:
                         print "Enter a valid option"
 
-
             if act == 'A':
                 pC['health'] = pC['health'] - attack
                 attack = 0
+                if pC['health'] <= 0:
+                    cG = False
+                    print 'Player One Wins'
+                    continue
             if act == 'E':
                 if (len(pO['hand']) >0 ):
                     for x in range(0, len(pO['hand'])):
@@ -254,6 +258,10 @@ if __name__ == '__main__':
         attack = 0
         print "\nPlayer Health %s" % pO['health']
         print "Computer Health %s" % pC['health']
+        if pO['health'] <= 0:
+            cG = False
+            print "Computer wins"
+            continue
         print " Computer player values attack %s, money %s" %\
               (attack, money)
         print "Computer buying"
@@ -303,7 +311,7 @@ if __name__ == '__main__':
                                 central['activeSize'] = \
                                     central['activeSize'] - 1
                         else:
-                            print "Error Occurred"
+                            print "Error Occurred" #TODO error occurred is not a good message for user as they do not know what happened
                     else:
                         if money >= central['supplement'][0].cost:
                             money = money - central['supplement'][0].cost
@@ -346,13 +354,13 @@ if __name__ == '__main__':
         print "\nPlayer Health %s" % pO['health']
         print "Computer Health %s" % pC['health']
 
-        if pO['health'] <= 0:
-            cG = False
-            print "Computer wins"
-        elif pC['health'] <= 0:
-            cG = False
-            print 'Player One Wins'
-        elif central['activeSize'] == 0:
+        #if pO['health'] <= 0:
+        #    cG = False
+        #    print "Computer wins"
+        #elif pC['health'] <= 0:
+        #    cG = False
+        #    print 'Player One Wins'
+        if central['activeSize'] == 0:
             print "No more cards available"
             if pO['health'] > pC['health']:
                 print "Player One Wins on Health"
@@ -368,6 +376,9 @@ if __name__ == '__main__':
                 else:
                     print "Draw"
             cG = False
+
+
+        #TODO delete the following repeated code and rewrite the restart function
         if not cG:
             pG = raw_input("\nDo you want to play another game?:")
             cG = (pG=='Y')
