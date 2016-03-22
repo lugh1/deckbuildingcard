@@ -1,4 +1,5 @@
-import itertools, random
+import itertools
+import random
 
 class Card(object):
     def __init__(self, name, values=(0, 0), cost=1):
@@ -7,7 +8,8 @@ class Card(object):
         self.values = values
 
     def __str__(self):
-                return 'Name %s costing %s with attack %s and money %s' % (self.name, self.cost, self.values[0], self.values[1])
+                return 'Name %s costing %s with attack %s and money %s' % \
+                       (self.name, self.cost, self.values[0], self.values[1])
     def get_attack(self):
         return self.values[0]
     def get_money(self):
@@ -15,32 +17,47 @@ class Card(object):
 
 
 if __name__ == '__main__':
-    pO = {'name': 'player one', 'health': 30, 'deck': None, 'hand': None, 'active': None, 'handsize': 5,
-                 'discard': None}
-    pC = {'name': 'player computer', 'health': 30, 'deck': None, 'hand': None, 'active': None, 'handsize': 5,
-               'discard': None}
-    central = {'name': 'central', 'active': None, 'activeSize': 5, 'supplement': None, 'deck': None}
-    sdc = [4 * [Card('Archer', (3, 0), 2)], 4 * [Card('Baker', (0, 3), 2)], 3 * [Card('Swordsman', (4, 0), 3)], 2 * [Card('Knight', (6, 0), 5)],3 * [Card('Tailor', (0, 4), 3)],3 * [Card('Crossbowman', (4, 0), 3)],3 * [Card('Merchant', (0, 5), 4)],4 * [Card('Thug', (2, 0), 1)],4 * [Card('Thief', (1, 1), 1)],2 * [Card('Catapault', (7, 0), 6)], 2 * [Card('Caravan', (1, 5), 5)],2 * [Card('Assassin', (5, 0), 4)]]
-    playeronedeck = [8 * [Card('Serf', (0, 1), 0)],
+    pO = {'name': 'player one', 'health': 30, 'deck': None, 'hand': None,
+          'active': None, 'handsize': 5, 'discard': None
+          }
+    pC = {'name': 'player computer', 'health': 30, 'deck': None, 'hand': None,
+          'active': None, 'handsize': 5, 'discard': None
+          }
+    central = {'name': 'central', 'active': None, 'activeSize': 5,
+               'supplement': None, 'deck': None
+               }
+    sharedDeskCard = [4 * [Card('Archer', (3, 0), 2)],
+                      4 * [Card('Baker', (0, 3), 2)],
+                      3 * [Card('Swordsman', (4, 0), 3)],
+                      2 * [Card('Knight', (6, 0), 5)],
+                      3 * [Card('Tailor', (0, 4), 3)],
+                      3 * [Card('Crossbowman', (4, 0), 3)],
+                      3 * [Card('Merchant', (0, 5), 4)],
+                      4 * [Card('Thug', (2, 0), 1)],
+                      4 * [Card('Thief', (1, 1), 1)],
+                      2 * [Card('Catapault', (7, 0), 6)],
+                      2 * [Card('Caravan', (1, 5), 5)],
+                      2 * [Card('Assassin', (5, 0), 4)]
+                      ]
+    playerOneDeck = [8 * [Card('Serf', (0, 1), 0)],
                      2 * [Card('Squire', (1, 0), 0)]
                      ]
-    pod = list(itertools.chain.from_iterable(playeronedeck))
+    pod = list(itertools.chain.from_iterable(playerOneDeck))
     pO['deck'] = pod
     pO['hand'] = []
     pO['discard'] = []
     pO['active'] = []
-    playertwodeck = [
-            8 * [Card('Serf', (0, 1), 0)],
-        2 * [Card('Squire', (1, 0), 0)]
-    ]
-    ptd = list(itertools.chain.from_iterable(playertwodeck))
+    playerComputerDeck = [8 * [Card('Serf', (0, 1), 0)],
+                          2 * [Card('Squire', (1, 0), 0)]
+                          ]
+    ptd = list(itertools.chain.from_iterable(playerComputerDeck))
     pC['deck'] = ptd
     pC['hand'] = []
     pC['discard'] = []
     pC['active'] = []
 
     supplement = 10 * [Card('Levy', (1, 2), 2)]
-    deck = list(itertools.chain.from_iterable(sdc))
+    deck = list(itertools.chain.from_iterable(sharedDeskCard))
     random.shuffle(deck)
     central['deck'] = deck
     central['supplement'] = supplement
@@ -81,7 +98,8 @@ if __name__ == '__main__':
 
     pG = raw_input('Do you want to play a game?:')
     cG = (pG=='Y')
-    oT = raw_input("Do you want an aggressive (A) opponent or an acquisative (Q) opponent")
+    oT = raw_input("Do you want an aggressive (A) opponent or "
+                   "an acquisative (Q) opponent")
     aggressive = (oT=='A')
     while cG:
         money = 0
@@ -98,7 +116,9 @@ if __name__ == '__main__':
                     index = index + 1
             print "\nYour Values"
             print "Money %s, Attack %s" % (money, attack)
-            print "\nChoose Action: (P = play all, [0-n] = play that card, B = Buy Card, A = Attack, E = end turn)"
+            print "\nChoose Action: (P = play all, " \
+                  "[0-n] = play that card, B = Buy Card, " \
+                  "A = Attack, E = end turn)"
 
             act = raw_input("Enter Action: ")
             print act
@@ -147,13 +167,16 @@ if __name__ == '__main__':
                     for card in central['active']:
                         print "[%s] %s" % (ind,card)
                         ind = ind + 1
-                    print "Choose a card to buy [0-n], S for supplement, E to end buying"
+                    print "Choose a card to buy [0-n], " \
+                          "S for supplement, E to end buying"
                     bv = raw_input("Choose option: ")
                     if bv == 'S':
                         if len(central['supplement']) > 0:
                             if money >= central['supplement'][0].cost:
-                                money = money - central['supplement'][0].cost
-                                pO['discard'].append(central['supplement'].pop())
+                                money = money - \
+                                        central['supplement'][0].cost
+                                pO['discard'].\
+                                    append(central['supplement'].pop())
                                 print "Supplement Bought"
                             else:
                                 print "insufficient money to buy"
@@ -165,13 +188,16 @@ if __name__ == '__main__':
                     elif bv.isdigit():
                         if int(bv) < len(central['active']):
                              if money >= central['active'][int(bv)].cost:
-                                money = money - central['active'][int(bv)].cost
-                                pO['discard'].append(central['active'].pop(int(bv)))
+                                money = money - \
+                                        central['active'][int(bv)].cost
+                                pO['discard'].\
+                                    append(central['active'].pop(int(bv)))
                                 if( len(central['deck']) > 0):
                                     card = central['deck'].pop()
                                     central['active'].append(card)
                                 else:
-                                    central['activeSize'] = central['activeSize'] - 1
+                                    central['activeSize'] = \
+                                        central['activeSize'] - 1
                                 print "Card bought"
                              else:
                                 print "insufficient money to buy"
@@ -221,13 +247,15 @@ if __name__ == '__main__':
                         money = money + card.get_money()
                         attack = attack + card.get_attack()
 
-        print " Computer player values attack %s, money %s" % (attack, money)
+        print " Computer player values attack %s, money %s" %\
+              (attack, money)
         print " Computer attacking with strength %s" % attack
         pO['health'] = pO['health'] - attack
         attack = 0
         print "\nPlayer Health %s" % pO['health']
         print "Computer Health %s" % pC['health']
-        print " Computer player values attack %s, money %s" % (attack, money)
+        print " Computer player values attack %s, money %s" %\
+              (attack, money)
         print "Computer buying"
         if money > 0:
             cb = True
@@ -240,23 +268,31 @@ if __name__ == '__main__':
                         templist.append(("S", central['supplement'][0]))
                 for intindex in range (0, central['activeSize']):
                     if central['active'][intindex].cost <= money:
-                        templist.append((intindex, central['active'][intindex]))
+                        templist.append((intindex,
+                                         central['active'][intindex]))
                 if len(templist) >0:
                     highestIndex = 0
                     for intindex in range(0,len(templist)):
-                        if templist[intindex][1].cost > templist[highestIndex][1].cost:
+                        if templist[intindex][1].cost > \
+                                templist[highestIndex][1].cost:
                             highestIndex = intindex
-                        if templist[intindex][1].cost == templist[highestIndex][1].cost:
+                        if templist[intindex][1].cost == \
+                                templist[highestIndex][1].cost:
                             if aggressive:
-                                if templist[intindex][1].get_attack() >templist[highestIndex][1].get_attack():
+                                if templist[intindex][1].get_attack() >\
+                                        templist[highestIndex][1].\
+                                                get_attack():
                                     highestIndex = intindex
                             else:
-                                if templist[intindex][1].get_attack() >templist[highestIndex][1].get_money():
+                                if templist[intindex][1].get_attack() >\
+                                        templist[highestIndex][1].\
+                                                get_money():
                                     highestIndex = intindex
                     source = templist[highestIndex][0]
                     if source in range(0,5):
                         if money >= central['active'][int(source)].cost:
-                            money = money - central['active'][int(source)].cost
+                            money = money - \
+                                    central['active'][int(source)].cost
                             card = central['active'].pop(int(source))
                             print "Card bought %s" % card
                             pC['discard'].append(card)
@@ -264,7 +300,8 @@ if __name__ == '__main__':
                                 card = central['deck'].pop()
                                 central['active'].append(card)
                             else:
-                                central['activeSize'] = central['activeSize'] - 1
+                                central['activeSize'] = \
+                                    central['activeSize'] - 1
                         else:
                             print "Error Occurred"
                     else:
@@ -335,48 +372,52 @@ if __name__ == '__main__':
             pG = raw_input("\nDo you want to play another game?:")
             cG = (pG=='Y')
             if cG:
-                oT = raw_input("Do you want an aggressive (A) opponent or an acquisative (Q) opponent")
+                oT = raw_input("Do you want an aggressive (A) opponent or"
+                               " an acquisative (Q) opponent")
                 aggressive = (oT=='A')
-                pO = {'name': 'player one', 'health': 30, 'deck': None, 'hand': None, 'active': None,
-                             'handsize': 5,
-                             'discard': None}
-                pC = {'name': 'player computer', 'health': 30, 'deck': None, 'hand': None, 'active': None, 'handsize': 5,
-                            'discard': None}
-                central = {'name': 'central', 'active': None, 'activeSize': 5, 'supplement': None, 'deck': None}
-                sdc = [
-                                4 * [Card('Archer', (3, 0), 2)],
-                                4 * [Card('Baker', (0, 3), 2)],
-                                3 * [Card('Swordsman', (4, 0), 3)],
-                                2 * [Card('Knight', (6, 0), 5)],
-                                3 * [Card('Tailor', (0, 4), 3)],
-                                3 * [Card('Crossbowman', (4, 0), 3)],
-                                3 * [Card('Merchant', (0, 5), 4)],
-                                4 * [Card('Thug', (2, 0), 1)],
-                                4 * [Card('Thief', (1, 1), 1)],
-                                2 * [Card('Catapault', (7, 0), 6)],
-                                2 * [Card('Caravan', (1, 5), 5)],
-                                2 * [Card('Assassin', (5, 0), 4)]
-                            ]
-                playeronedeck = [8 * [Card('Serf', (0, 1), 0)],
+                pO = {'name': 'player one', 'health': 30, 'deck': None,
+                      'hand': None, 'active': None, 'handsize': 5,
+                      'discard': None
+                      }
+                pC = {'name': 'player computer', 'health': 30, 'deck': None,
+                      'hand': None, 'active': None, 'handsize': 5,
+                      'discard': None
+                      }
+                central = {'name': 'central', 'active': None, 'activeSize': 5,
+                           'supplement': None, 'deck': None
+                           }
+                sharedDeskCard = [4 * [Card('Archer', (3, 0), 2)],
+                                  4 * [Card('Baker', (0, 3), 2)],
+                                  3 * [Card('Swordsman', (4, 0), 3)],
+                                  2 * [Card('Knight', (6, 0), 5)],
+                                  3 * [Card('Tailor', (0, 4), 3)],
+                                  3 * [Card('Crossbowman', (4, 0), 3)],
+                                  3 * [Card('Merchant', (0, 5), 4)],
+                                  4 * [Card('Thug', (2, 0), 1)],
+                                  4 * [Card('Thief', (1, 1), 1)],
+                                  2 * [Card('Catapault', (7, 0), 6)],
+                                  2 * [Card('Caravan', (1, 5), 5)],
+                                  2 * [Card('Assassin', (5, 0), 4)]
+                                  ]
+                playerOneDeck = [8 * [Card('Serf', (0, 1), 0)],
                                  2 * [Card('Squire', (1, 0), 0)]
-                            ]
-                pod = list(itertools.chain.from_iterable(playeronedeck))
+                                 ]
+                pod = list(itertools.chain.from_iterable(playerOneDeck))
                 pO['deck'] = pod
                 pO['hand'] = []
                 pO['discard'] = []
                 pO['active'] = []
-                playertwodeck = [
-                            8 * [Card('Serf', (0, 1), 0)],
-                            2 * [Card('Squire', (1, 0), 0)]
-                ]
-                ptd = list(itertools.chain.from_iterable(playertwodeck))
+                playerComputerDeck = [8 * [Card('Serf', (0, 1), 0)],
+                                      2 * [Card('Squire', (1, 0), 0)]
+                                      ]
+                ptd = list(itertools.chain.from_iterable(playerComputerDeck))
                 pC['deck'] = ptd
                 pC['hand'] = []
                 pC['discard'] = []
                 pC['active'] = []
 
                 supplement = 10 * [Card('Levy', (1, 2), 2)]
-                deck = list(itertools.chain.from_iterable(sdc))
+                deck = list(itertools.chain.from_iterable(sharedDeskCard))
                 random.shuffle(deck)
                 central['deck'] = deck
                 central['supplement'] = supplement
