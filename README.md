@@ -1,5 +1,6 @@
 # deckbuildingcard
 A deck building card game write with python.
+a coursework program
 
 Build：
   
